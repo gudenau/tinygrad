@@ -50,7 +50,9 @@ patched_fw = patch(file_path, file_hash, patches)
 dev = None
 for vendor, device in SUPPORTED_CONTROLLERS:
   try:
-    dev = USB3(vendor, device, 0x81, 0x83, 0x02, 0x04, use_bot=True)
+    for usbDevice in USB3.list_devices(vendor, device):
+      dev = USB3(usbDevice, 0x81, 0x83, 0x02, 0x04, use_bot=True)
+      break
     break
   except RuntimeError: pass
 if dev is None:
